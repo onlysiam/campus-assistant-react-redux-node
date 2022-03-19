@@ -1,12 +1,5 @@
 import { React, useEffect, useState } from "react";
 
-import { ToastContainer, toast, Zoom } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ClipLoader from "react-spinners/ClipLoader";
-
-import Alert from "../Alert";
-import Resetpass from "../Resetpass";
-
 //image
 import logo from "../../img/logo.svg";
 import cam from "../../img/cam.svg";

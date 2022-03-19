@@ -1,7 +1,5 @@
 import { React, useEffect } from "react";
 
-import "react-toastify/dist/ReactToastify.css";
-
 //image
 import logo from "../img/logo.svg";
 
