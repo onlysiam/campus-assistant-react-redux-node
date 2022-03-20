@@ -8,13 +8,21 @@ const slice = createSlice({
     name: "",
     username: "",
     authenticated: false,
+    loading: false,
     uploading: false,
     lastFetch: null,
   },
   reducers: {
+    authRequested: (authentication, action) => {
+      authentication.loading = true;
+    },
     userAdded: (users, action) => {},
 
     userLogout: (users, action) => {},
+
+    authRequestFailed: (authentication, action) => {
+      authentication.loading = false;
+    },
 
     uploadRequested: (users, action) => {
       users.uploading = true;
@@ -38,6 +46,24 @@ export const {
   userLogout,
 } = slice.actions;
 export default slice.reducer;
+
+export const login = (username, password) =>
+  apiCallBegan({
+    url: loginUrl + "/" + username + "/" + password,
+    method: "get",
+    onStart: authRequested.type,
+    onSuccess: userAdded.type,
+    onError: authRequestFailed.type,
+  });
+export const register = (informations) =>
+  apiCallBegan({
+    url: registerUrl,
+    method: "post",
+    data: informations,
+    onStart: authRequested.type,
+    onSuccess: userAdded.type,
+    onError: authRequestFailed.type,
+  });
 
 export const uploadPicture = (file) =>
   apiCallBegan({

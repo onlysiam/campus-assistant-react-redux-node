@@ -1,49 +1,42 @@
 import { React, useEffect, useState } from "react";
 //router
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 //animation
-
 import Startpage from "./components/Startpage";
-import Login from "./components/authentication/Login";
-
-//data
 
 //styled
 import GlobalStyle from "./components/GlobalStyle";
 //animation
 import { AnimatePresence } from "framer-motion";
-import SlipUplod from "./components/courses/SlipUplod";
+//components
+import Authentication from "./components/Authentication";
+//redux
+import { useSelector } from "react-redux";
 
 function App() {
+  const navigate = useNavigate();
   const location = useLocation();
-
+  const authenticated = useSelector(
+    (state) => state.entities.user.authenticated
+  );
   const [startpage, setStartpage] = useState();
 
-  const [windowheight, setWindowheght] = useState();
-  const [windowwidth, setWindowwidth] = useState();
-
   useEffect(() => {
-    setWindowheght(window.innerHeight);
-    setWindowwidth(window.innerWidth);
     setStartpage(true);
     setTimeout(function () {
       setStartpage(false);
+      if (authenticated) navigate("/dashboard");
     }, 1100);
   }, []);
 
-  const windowSizer = () => {
-    setWindowheght(window.innerHeight);
-    setWindowwidth(window.innerWidth);
-  };
-  window.addEventListener("resize", windowSizer);
-
   return (
     <div className="App">
-      {startpage ? <Startpage windowheight={windowheight} /> : ""}
+      {startpage ? <Startpage /> : ""}
       <GlobalStyle />
       <AnimatePresence>
         <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Authentication />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         </Routes>
       </AnimatePresence>
     </div>

@@ -14,8 +14,8 @@ const api =
     next(action);
     try {
       const response = await axios.request({
-        // baseURL: "http://localhost:3001/api",
-        baseURL: "https://weathercloset.onlysiam.com/api/",
+        baseURL: "http://localhost:3001/api",
+        // baseURL: "https://weathercloset.onlysiam.com/api/",
         url,
         method,
         data,

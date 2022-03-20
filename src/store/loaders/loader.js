@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import preloaderReducer from "./preloader";
+import loginWindowReducer from "./loginWindow";
+import signupWindowReducer from "./signupWindow";
 
 export default combineReducers({
-  preloader: preloaderReducer,
+  loginWindow: loginWindowReducer,
+  signupWindow: signupWindowReducer,
 });

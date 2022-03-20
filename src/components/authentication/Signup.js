@@ -5,6 +5,7 @@ import { action, placeholder } from "../../variables/colors";
 import logo from "../../img/logo.svg";
 import userIcon from "../../img/auth_props/user.svg";
 import lockIcon from "../../img/auth_props/password.svg";
+import mailIcon from "../../img/auth_props/mail.svg";
 //styled
 import styled from "styled-components";
 //Animations
@@ -18,23 +19,35 @@ import { useDispatch } from "react-redux";
 import { loginWindowToggle } from "../../store/loaders/loginWindow";
 import { signupWindowToggle } from "../../store/loaders/signupWindow";
 
-const Login = () => {
+const Signup = () => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const [focusedElement, setFocusedElement] = useState("");
 
-  const usernameInputHandler = (e) => {
+  //handlers
+  const fnameHandler = (e) => {
+    setFname(e.target.value);
+  };
+  const lnameHandler = (e) => {
+    setLname(e.target.value);
+  };
+  const usernameHandler = (e) => {
     setUsername(e.target.value);
   };
-  const passwordInputHandler = (e) => {
+  const passwordHandler = (e) => {
     setPassword(e.target.value);
   };
-  const resetHandler = () => {};
+  const emailHandler = (e) => {
+    setEmail(e.target.value);
+  };
   const login = (e) => {};
 
-  const signupWindowHandler = () => {
+  const loginWindowHandler = () => {
     dispatch(loginWindowToggle());
     dispatch(signupWindowToggle());
   };
@@ -48,13 +61,29 @@ const Login = () => {
       <form className="formStyle" onSubmit={login}>
         <img className="logoImg" src={logo} alt="hey" />
         <div className="inputs">
+          <div className="nameInputs">
+            <Input
+              label="First Name"
+              type="text"
+              placeholderTxt="John"
+              value={fname}
+              onChange={fnameHandler}
+            />
+            <Input
+              label="Last Name"
+              type="text"
+              placeholderTxt="Doe"
+              value={lname}
+              onChange={lnameHandler}
+            />
+          </div>
           <Input
             label="NSU Id"
             icon={userIcon}
             type="number"
             placeholderTxt="10 digit nsu id"
             value={username}
-            onChange={usernameInputHandler}
+            onChange={usernameHandler}
           />
           <Input
             label="Password"
@@ -62,16 +91,21 @@ const Login = () => {
             type="password"
             placeholderTxt="6+ strong character"
             value={password}
-            onChange={passwordInputHandler}
+            onChange={passwordHandler}
+          />
+          <Input
+            label="E-mail"
+            icon={mailIcon}
+            type="text"
+            placeholderTxt="example@northsouth.edu"
+            value={email}
+            onChange={emailHandler}
           />
         </div>
-        <button className="loginBtn">Login</button>
+        <button className="loginBtn">Signup</button>
         <div className="atags">
-          <p onClick={resetHandler} to="">
-            Forgot Password? <span>Reset</span>
-          </p>
-          <p onClick={signupWindowHandler} to="">
-            Don't have an account? <span>Signup</span>
+          <p onClick={loginWindowHandler} to="">
+            Have an Account? <span>Login</span>
           </p>
         </div>
       </form>
@@ -97,11 +131,11 @@ const Body = styled(motion.div)`
     padding: 2rem;
 
     .logoImg {
-      margin-top: 3vh;
       height: 10rem;
       margin-bottom: 10px;
     }
     .inputs {
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -109,13 +143,20 @@ const Body = styled(motion.div)`
       width: 80%;
       gap: 1rem;
       margin-top: 2rem;
-      overflow: visible;
+
+      .nameInputs {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2%;
+      }
     }
 
     .loginBtn {
-      width: 80%;
       height: 2.8rem;
-      background-color: ${action};
+      width: 80%;
+      background-color: #50c2c9;
       color: white;
       font-size: 1.2rem;
       font-weight: 600;
@@ -142,9 +183,9 @@ const Body = styled(motion.div)`
         cursor: pointer;
         color: ${placeholder};
         span {
-          color: ${action};
-          transition: 0.5s ease;
+          color: #50c2c9;
           &:hover {
+            transition: 0.5s ease;
             color: #5088c9;
           }
         }
@@ -166,11 +207,6 @@ const Body = styled(motion.div)`
 
       .logoImg {
       }
-      .inputs {
-        input::placeholder {
-          color: rgba(0, 0, 0, 0.452);
-        }
-      }
 
       .loginBtn:hover {
         transform: scale(1.03);
@@ -179,9 +215,10 @@ const Body = styled(motion.div)`
         font-weight: 400;
         font-size: 2vh;
         cursor: pointer;
+        color: #50c2c9;
       }
     }
   }
 `;
 
-export default Login;
+export default Signup;

@@ -14,7 +14,7 @@ import phoneqr from "../img/phoneqr.svg";
 import styled from "styled-components";
 //Animations
 import { motion } from "framer-motion";
-import { pageAnimation } from "../Animation";
+import { pageAnimation } from "./Animation";
 
 const Qrscan = ({
   setAuthenticated,
