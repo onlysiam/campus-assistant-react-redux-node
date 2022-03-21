@@ -9,7 +9,9 @@ import GlobalStyle from "./components/GlobalStyle";
 //animation
 import { AnimatePresence } from "framer-motion";
 //components
+import Alerts from "./components/alerts/Alerts";
 import Authentication from "./components/Authentication";
+import Preloader from "./components/preloaders/Preloader";
 //redux
 import { useSelector } from "react-redux";
 
@@ -19,6 +21,10 @@ function App() {
   const authenticated = useSelector(
     (state) => state.entities.user.authenticated
   );
+  const userLoading = useSelector((state) => state.entities.user.loading);
+  // const coursesLoading = useSelector(
+  //   (state) => state.entities.courses.loading
+  // );
   const [startpage, setStartpage] = useState();
 
   useEffect(() => {
@@ -31,6 +37,8 @@ function App() {
 
   return (
     <div className="App">
+      {userLoading ? <Preloader /> : ""}
+      <Alerts />
       {startpage ? <Startpage /> : ""}
       <GlobalStyle />
       <AnimatePresence>

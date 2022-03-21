@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //vars
 import { action, placeholder } from "../../variables/colors";
+import * as catagories from "../../variables/inputsCatagories";
 //image
 import logo from "../../img/logo.svg";
 import userIcon from "../../img/auth_props/user.svg";
@@ -13,9 +14,16 @@ import { motion } from "framer-motion";
 import { loginSignupPageAnimation } from "../Animation";
 //components
 import Input from "./Input";
+//function
+import { validateUserSignup } from "../../functions/validators";
 //redux
 import { useDispatch } from "react-redux";
 //reducers
+import {
+  register,
+  userValidationError,
+  userValidationErrorReset,
+} from "../../store/user";
 import { loginWindowToggle } from "../../store/loaders/loginWindow";
 import { signupWindowToggle } from "../../store/loaders/signupWindow";
 
@@ -27,7 +35,9 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const [focusedElement, setFocusedElement] = useState("");
+  useEffect(() => {
+    dispatch(userValidationErrorReset());
+  }, []);
 
   //handlers
   const fnameHandler = (e) => {
@@ -45,7 +55,23 @@ const Signup = () => {
   const emailHandler = (e) => {
     setEmail(e.target.value);
   };
-  const login = (e) => {};
+  const signupHandler = (e) => {
+    e.preventDefault();
+    dispatch(userValidationErrorReset());
+    const validation = validateUserSignup({
+      fname,
+      lname,
+      username,
+      password,
+      email,
+    });
+    if (validation !== true) {
+      dispatch(userValidationError(validation));
+    } else if (validation) {
+      dispatch(userValidationErrorReset());
+      dispatch(register({ fname, lname, username, password, email }));
+    }
+  };
 
   const loginWindowHandler = () => {
     dispatch(loginWindowToggle());
@@ -58,7 +84,7 @@ const Signup = () => {
       animate="show"
       exit="exit"
     >
-      <form className="formStyle" onSubmit={login}>
+      <form className="formStyle">
         <img className="logoImg" src={logo} alt="hey" />
         <div className="inputs">
           <div className="nameInputs">
@@ -68,6 +94,7 @@ const Signup = () => {
               placeholderTxt="John"
               value={fname}
               onChange={fnameHandler}
+              catagory={catagories.name}
             />
             <Input
               label="Last Name"
@@ -75,6 +102,7 @@ const Signup = () => {
               placeholderTxt="Doe"
               value={lname}
               onChange={lnameHandler}
+              catagory={catagories.name}
             />
           </div>
           <Input
@@ -84,6 +112,7 @@ const Signup = () => {
             placeholderTxt="10 digit nsu id"
             value={username}
             onChange={usernameHandler}
+            catagory={catagories.username}
           />
           <Input
             label="Password"
@@ -92,6 +121,7 @@ const Signup = () => {
             placeholderTxt="6+ strong character"
             value={password}
             onChange={passwordHandler}
+            catagory={catagories.password}
           />
           <Input
             label="E-mail"
@@ -100,9 +130,12 @@ const Signup = () => {
             placeholderTxt="example@northsouth.edu"
             value={email}
             onChange={emailHandler}
+            catagory={catagories.email}
           />
         </div>
-        <button className="loginBtn">Signup</button>
+        <button onClick={signupHandler} className="loginBtn">
+          Signup
+        </button>
         <div className="atags">
           <p onClick={loginWindowHandler} to="">
             Have an Account? <span>Login</span>
@@ -180,6 +213,7 @@ const Body = styled(motion.div)`
       p {
         font-size: 1rem;
         font-weight: 400;
+        height: 2rem;
         cursor: pointer;
         color: ${placeholder};
         span {

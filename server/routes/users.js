@@ -1,12 +1,12 @@
-const { User, validate } = require("../models/user");
 const express = require("express");
 const router = express.Router();
+const { db } = require("../startup/db");
 
 router.get("/:username/:password", (req, res) => {
   const username = req.params.username;
   const password = req.params.password;
   db.query(
-    "SELECT * FROM users WHERE username = ? AND password = ?",
+    "SELECT name,username,profilepic,email FROM students WHERE username = ? AND password = ?",
     [username, password],
     (err, result) => {
       if (err) {
@@ -20,19 +20,22 @@ router.get("/:username/:password", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+  const qrid = "";
+  const name = req.body.fname + " " + req.body.lname;
   const username = req.body.username;
+  const password = req.body.password;
+  const profilepic = "";
+  const email = req.body.email;
+  const otp = Math.floor(1000 + Math.random() * 9000);
   db.query(
-    "INSERT INTO session (username) VALUES (?)",
-    [username],
+    "INSERT INTO students (qrid,name,username,password,profilepic,email,otp) VALUES (?,?,?,?,?,?,?)",
+    [qrid, name, username, password, profilepic, email, otp],
     (err, result) => {
       if (err) {
         res.send({ err: err });
       }
-      if (result) {
-        res.send(result);
+      if (result.affectedRows === 1) {
+        res.send([{ name, username, profilepic, email }]);
       }
     }
   );

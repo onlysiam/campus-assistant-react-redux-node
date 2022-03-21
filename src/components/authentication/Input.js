@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 //vars
 import { action, placeholder } from "../../variables/colors";
 //image
@@ -6,14 +7,33 @@ import userIcon from "../../img/auth_props/user.svg";
 import lockIcon from "../../img/auth_props/password.svg";
 //styled
 import styled from "styled-components";
-import { useState } from "react";
-const Input = ({ label, icon, type, placeholderTxt, value, onChange }) => {
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { alertToggleTrue } from "../../store/alerts/alert";
+
+const Input = ({
+  label,
+  icon,
+  type,
+  placeholderTxt,
+  value,
+  onChange,
+  catagory,
+}) => {
+  const dispatch = useDispatch();
   const [focused, setFocused] = useState(false);
+  const error = useSelector((state) => state.entities.user.error);
+
+  useEffect(() => {
+    if (error.state && error.catagory === catagory)
+      dispatch(alertToggleTrue({ type: "error", message: error.message }));
+  }, [error]);
   return (
     <InputStyle>
       <h1 className={focused ? "active" : ""}>{label}</h1>
       {icon && <img src={icon} alt="" />}
       <input
+        className={error.state && error.catagory === catagory ? "error" : ""}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         type={type}
@@ -52,6 +72,9 @@ const InputStyle = styled.div`
   .active {
     color: ${action};
     transition: 0.3s;
+  }
+  .error {
+    border: 1px solid red;
   }
 
   input {

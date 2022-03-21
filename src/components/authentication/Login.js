@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //vars
 import { action, placeholder } from "../../variables/colors";
+import * as catagories from "../../variables/inputsCatagories";
 //image
 import logo from "../../img/logo.svg";
 import userIcon from "../../img/auth_props/user.svg";
@@ -12,18 +13,27 @@ import { motion } from "framer-motion";
 import { loginSignupPageAnimation } from "../Animation";
 //components
 import Input from "./Input";
+//function
+import { validateUserLogin } from "../../functions/validators";
 //redux
 import { useDispatch } from "react-redux";
 //reducers
+import {
+  login,
+  userValidationError,
+  userValidationErrorReset,
+} from "../../store/user";
 import { loginWindowToggle } from "../../store/loaders/loginWindow";
 import { signupWindowToggle } from "../../store/loaders/signupWindow";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [focusedElement, setFocusedElement] = useState("");
+  useEffect(() => {
+    dispatch(userValidationErrorReset());
+  }, []);
 
   const usernameInputHandler = (e) => {
     setUsername(e.target.value);
@@ -32,7 +42,17 @@ const Login = () => {
     setPassword(e.target.value);
   };
   const resetHandler = () => {};
-  const login = (e) => {};
+  const logInHandler = (e) => {
+    e.preventDefault();
+    dispatch(userValidationErrorReset());
+    const validation = validateUserLogin({ username, password });
+    if (validation !== true) {
+      dispatch(userValidationError(validation));
+    } else if (validation) {
+      dispatch(userValidationErrorReset());
+      dispatch(login(username, password));
+    }
+  };
 
   const signupWindowHandler = () => {
     dispatch(loginWindowToggle());
@@ -45,7 +65,7 @@ const Login = () => {
       animate="show"
       exit="exit"
     >
-      <form className="formStyle" onSubmit={login}>
+      <form className="formStyle">
         <img className="logoImg" src={logo} alt="hey" />
         <div className="inputs">
           <Input
@@ -55,6 +75,7 @@ const Login = () => {
             placeholderTxt="10 digit nsu id"
             value={username}
             onChange={usernameInputHandler}
+            catagory={catagories.username}
           />
           <Input
             label="Password"
@@ -63,9 +84,12 @@ const Login = () => {
             placeholderTxt="6+ strong character"
             value={password}
             onChange={passwordInputHandler}
+            catagory={catagories.password}
           />
         </div>
-        <button className="loginBtn">Login</button>
+        <button onClick={logInHandler} className="loginBtn">
+          Login
+        </button>
         <div className="atags">
           <p onClick={resetHandler} to="">
             Forgot Password? <span>Reset</span>

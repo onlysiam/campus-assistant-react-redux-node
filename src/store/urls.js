@@ -1,7 +1,7 @@
 export const fetchPlaceUrl = "/fetchplaces";
 export const savePlaceUrl = "/saveplace";
 
-export const loginUrl = "/login";
+export const userUrl = "/users";
 export const checkUserUrl = "/checkuser";
 export const registerUrl = "/register";
 

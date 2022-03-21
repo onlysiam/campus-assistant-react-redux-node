@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as actions from "../api";
+import { alertToggleTrue } from "../alerts/alert";
 const api =
   ({ dispatch }) =>
   (next) =>
@@ -7,7 +8,6 @@ const api =
     if (action.type !== actions.apiCallBegan.type) {
       return next(action);
     }
-
     const { url, method, data, onSuccess, onError, onStart } = action.payload;
 
     if (onStart) dispatch({ type: onStart });
@@ -24,7 +24,19 @@ const api =
         dispatch(actions.apiCallSuccess(response.data));
       }
       if (onSuccess && response.data) {
-        dispatch({ type: onSuccess, payload: response.data });
+        if (onSuccess === "user/userAdded") {
+          if (response.data.length > 0)
+            dispatch({ type: onSuccess, payload: response.data });
+          else {
+            dispatch(
+              alertToggleTrue({
+                type: "error",
+                message: "incorrect username or password",
+              })
+            );
+            dispatch({ type: onError, payload: "no data found" });
+          }
+        }
       }
     } catch (error) {
       dispatch(actions.apiCallFailed({ error }));

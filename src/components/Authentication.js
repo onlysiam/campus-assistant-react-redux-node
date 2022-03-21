@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 //styled components
 import styled from "styled-components";
 //components
@@ -9,11 +11,42 @@ import { motion } from "framer-motion";
 import { pageAnimation } from "./Animation";
 import Signup from "./authentication/Signup";
 //redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+//reducers
+import { alertToggleTrue } from "../store/alerts/alert";
 
 const Authentication = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const authenticated = useSelector(
+    (state) => state.entities.user.authenticated
+  );
   const loginState = useSelector((state) => state.loader.loginWindow.state);
   const signupState = useSelector((state) => state.loader.signupWindow.state);
+
+  useEffect(() => {
+    if (authenticated) {
+      if (signupState) {
+        navigate("/profile");
+        dispatch(
+          alertToggleTrue({
+            type: "success",
+            message: "Successfully Signed Up.",
+          })
+        );
+      }
+      if (loginState) {
+        navigate("/dashboard");
+        dispatch(
+          alertToggleTrue({
+            type: "success",
+            message: "Successfully Logged In.",
+          })
+        );
+      }
+    }
+  }, [authenticated]);
+
   return (
     <Auth variants={pageAnimation} exit="exit">
       <Circles />
