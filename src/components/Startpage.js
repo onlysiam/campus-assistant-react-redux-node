@@ -23,13 +23,14 @@ const Startpage = ({ windowheight }) => {
 //styled Components
 const Body = styled(motion.div)`
   width: 100vw;
-  height: ${(props) => props.height}px;
+  height: 100vh;
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   background-color: #f6f6f6;
+  z-index: 100;
   .logoImg {
     height: 25vh;
     margin-bottom: 10px;

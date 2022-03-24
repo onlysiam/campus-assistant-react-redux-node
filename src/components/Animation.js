@@ -7,7 +7,9 @@ export const pageAnimation = {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 0.2,
+      duration: 0.3,
+      when: "beforeChildren",
+      staggerChildren: 0.25,
     },
   },
   exit: {
@@ -110,6 +112,51 @@ export const preloaderAnimation = {
   show: {
     opacity: 1,
     transition: { duration: 0.3 },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.3 },
+  },
+};
+
+export const cgpaCircleAnimation = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      delay: 0.5,
+    },
+  },
+};
+
+export const cardAnimation1 = {
+  hidden: { opacity: 0, x: -100, y: -100, scale: 1.1 },
+  show: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.75, delay: 0.5, ease: "easeOut" },
+  },
+};
+
+export const cardAnimation2 = {
+  hidden: { opacity: 0, x: -100, y: -100, scale: 1.1 },
+  show: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.7, delay: 0.7, ease: "easeOut" },
+  },
+};
+
+export const courseWindow = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
   },
   exit: {
     opacity: 0,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 //vars
-import { action, placeholder } from "../../variables/colors";
+import { action, placeholder, primary } from "../../variables/colors";
 import * as catagories from "../../variables/inputsCatagories";
 //image
 import logo from "../../img/logo.svg";
@@ -28,8 +28,8 @@ import { signupWindowToggle } from "../../store/loaders/signupWindow";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(1610861042);
+  const [password, setPassword] = useState("siam07");
 
   useEffect(() => {
     dispatch(userValidationErrorReset());
@@ -51,6 +51,8 @@ const Login = () => {
     } else if (validation) {
       dispatch(userValidationErrorReset());
       dispatch(login(username, password));
+      localStorage.setItem("nsuaideUserUsername", username);
+      localStorage.setItem("nsuaideUserPassword", password);
     }
   };
 
@@ -90,6 +92,12 @@ const Login = () => {
         <button onClick={logInHandler} className="loginBtn">
           Login
         </button>
+        <div className="qrloginSection">
+          <div className="or">
+            <p>or</p>
+          </div>
+          <button className="btn">QR Login</button>
+        </div>
         <div className="atags">
           <p onClick={resetHandler} to="">
             Forgot Password? <span>Reset</span>
@@ -152,6 +160,9 @@ const Body = styled(motion.div)`
     .loginBtn:hover {
       transform: scale(1.03);
     }
+    .qrloginSection {
+      display: none;
+    }
     .atags {
       display: flex;
       flex-direction: column;
@@ -175,34 +186,67 @@ const Body = styled(motion.div)`
       }
     }
   }
-
-  @media (min-width: 800px) {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-
+  @media only screen and (max-width: 1200px) {
+    width: 40vw;
+  }
+  @media only screen and (max-width: 800px) {
+    width: 50vw;
     .formStyle {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
+      padding: 0rem;
+    }
+  }
+  @media only screen and (max-width: 680px) {
+    width: 80vw;
+    height: 70vh;
+    z-index: 1;
+    .formStyle {
       .logoImg {
+        margin-top: 0vh;
+        height: 8rem;
+        margin-bottom: 0px;
       }
       .inputs {
-        input::placeholder {
-          color: rgba(0, 0, 0, 0.452);
-        }
+        gap: 0.5rem;
+        margin-top: 1.3rem;
       }
 
-      .loginBtn:hover {
-        transform: scale(1.03);
-      }
-      .atags {
-        font-weight: 400;
-        font-size: 2vh;
-        cursor: pointer;
+      .qrloginSection {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        width: 100%;
+        .or {
+          width: 40%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-top: 1px solid #bfbfbf;
+          p {
+            color: ${placeholder};
+            text-align: center;
+            width: 2rem;
+            font-size: 1.3rem;
+            transform: translateY(-60%);
+            background-color: ${primary};
+          }
+        }
+        button {
+          width: 80%;
+          height: 2.8rem;
+          background-color: ${action};
+          color: white;
+          font-size: 1.2rem;
+          font-weight: 600;
+          border: none;
+          border-radius: 5px;
+          transition: 0.5s;
+          cursor: pointer;
+          &:hover {
+            transform: scale(1.03);
+          }
+        }
       }
     }
   }

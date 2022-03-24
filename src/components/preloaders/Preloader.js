@@ -31,7 +31,7 @@ const Loader = styled(motion.div)`
   height: 100vh;
   width: 100vw;
   background-color: ${primary};
-  z-index: 1;
+  z-index: 20;
 
   .circle-border {
     width: 150px;

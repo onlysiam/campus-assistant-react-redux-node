@@ -1,8 +1,12 @@
 import { combineReducers } from "redux";
 import userReducer from "./user";
+import courseReducer from "./course";
+import suggestionReducer from "./suggestion";
 
 const appReducer = combineReducers({
   user: userReducer,
+  courses: courseReducer,
+  suggestions: suggestionReducer,
 });
 
 const rootReducer = (state, action) => {

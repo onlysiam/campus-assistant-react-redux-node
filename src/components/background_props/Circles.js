@@ -13,19 +13,27 @@ const Circles = () => {
 const Circle1 = styled.div`
   position: absolute;
   right: 1rem;
-  top: -7rem;
+  bottom: -4rem;
   width: 25vh;
   height: 25vh;
   border-radius: 50%;
   background-color: rgba(106, 224, 217, 0.5);
+  @media only screen and (max-width: 680px) {
+    left: -1rem;
+    top: -6rem;
+  }
 `;
 const Circle2 = styled.div`
   position: absolute;
-  top: -3.5rem;
+  bottom: -1rem;
   right: -5rem;
   width: 25vh;
   height: 25vh;
   border-radius: 50%;
   background-color: rgba(106, 224, 217, 0.5);
+  @media only screen and (max-width: 680px) {
+    left: -6rem;
+    top: -3rem;
+  }
 `;
 export default Circles;

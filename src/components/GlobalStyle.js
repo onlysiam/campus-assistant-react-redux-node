@@ -8,7 +8,16 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  cursor: pointer;
+}
+::-webkit-scrollbar-thumb {
+  background: #313131;
+  border-radius: 50px;
+  cursor: pointer;
 }
 `;
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 //vars
-import { action, placeholder } from "../../variables/colors";
+import { action, placeholder, primary } from "../../variables/colors";
 import * as catagories from "../../variables/inputsCatagories";
 //image
 import logo from "../../img/logo.svg";
@@ -29,11 +29,11 @@ import { signupWindowToggle } from "../../store/loaders/signupWindow";
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [fname, setFname] = useState("Siam");
+  const [lname, setLname] = useState("Ahmed");
+  const [username, setUsername] = useState(1610861042);
+  const [password, setPassword] = useState("siam07");
+  const [email, setEmail] = useState("siam@northsouth.edu");
 
   useEffect(() => {
     dispatch(userValidationErrorReset());
@@ -250,6 +250,61 @@ const Body = styled(motion.div)`
         font-size: 2vh;
         cursor: pointer;
         color: #50c2c9;
+      }
+    }
+  }
+  @media only screen and (max-width: 680px) {
+    width: 90vw;
+    height: 70vh;
+    z-index: 1;
+    .formStyle {
+      .logoImg {
+        margin-top: 0vh;
+        height: 8rem;
+        margin-bottom: 0px;
+      }
+      .inputs {
+        gap: 0.5rem;
+        margin-top: 1.3rem;
+      }
+
+      .qrloginSection {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        width: 100%;
+        .or {
+          width: 40%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-top: 1px solid #bfbfbf;
+          p {
+            color: ${placeholder};
+            text-align: center;
+            width: 2rem;
+            font-size: 1.3rem;
+            transform: translateY(-60%);
+            background-color: ${primary};
+          }
+        }
+        button {
+          width: 80%;
+          height: 2.8rem;
+          background-color: ${action};
+          color: white;
+          font-size: 1.2rem;
+          font-weight: 600;
+          border: none;
+          border-radius: 5px;
+          transition: 0.5s;
+          cursor: pointer;
+          &:hover {
+            transform: scale(1.03);
+          }
+        }
       }
     }
   }

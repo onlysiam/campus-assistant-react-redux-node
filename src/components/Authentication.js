@@ -14,6 +14,8 @@ import Signup from "./authentication/Signup";
 import { useSelector, useDispatch } from "react-redux";
 //reducers
 import { alertToggleTrue } from "../store/alerts/alert";
+import { getCourses } from "../store/course";
+import { placeholder, primary } from "../variables/colors";
 
 const Authentication = () => {
   const dispatch = useDispatch();
@@ -21,13 +23,14 @@ const Authentication = () => {
   const authenticated = useSelector(
     (state) => state.entities.user.authenticated
   );
+  const username = useSelector((state) => state.entities.user.username);
   const loginState = useSelector((state) => state.loader.loginWindow.state);
   const signupState = useSelector((state) => state.loader.signupWindow.state);
 
   useEffect(() => {
     if (authenticated) {
       if (signupState) {
-        navigate("/profile");
+        navigate("/addinfo");
         dispatch(
           alertToggleTrue({
             type: "success",
@@ -36,13 +39,17 @@ const Authentication = () => {
         );
       }
       if (loginState) {
-        navigate("/dashboard");
+        const password = localStorage.getItem("nsuaideUserPassword");
+        dispatch(getCourses(username, password));
         dispatch(
           alertToggleTrue({
             type: "success",
             message: "Successfully Logged In.",
           })
         );
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 500);
       }
     }
   }, [authenticated]);
@@ -71,19 +78,28 @@ const Auth = styled(motion.div)`
   align-items: center;
   background-color: #f6f6f6;
   .orBreak {
-    font-size: 3vh;
-    margin: 1.2vh 0;
-    font-weight: 600;
+    border-right: 3px solid #237e83;
+    height: 80vh;
+    color: #f6f6f6;
+    transform: translateX(-50%);
   }
   .qrLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 40vw;
+    padding: 1rem;
+    overflow: hidden;
   }
-  @media (min-width: 800px) {
+  @media only screen and (max-width: 1200px) {
+    .qrLogin {
+      width: auto;
+    }
+  }
+  @media only screen and (max-width: 680px) {
+    flex-direction: column;
     .orBreak {
-      border-right: 3px solid #237e83;
-      height: 80vh;
-      color: #f6f6f6;
-      transform: translateX(-50%);
+      display: none;
     }
   }
 `;

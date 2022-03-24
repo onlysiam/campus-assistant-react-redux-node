@@ -37,6 +37,7 @@ const api =
             dispatch({ type: onError, payload: "no data found" });
           }
         }
+        dispatch({ type: onSuccess, payload: response.data });
       }
     } catch (error) {
       dispatch(actions.apiCallFailed({ error }));

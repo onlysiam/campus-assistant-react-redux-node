@@ -9,7 +9,7 @@ router.get("/semestersCourses/:course/:section/:semester", (req, res) => {
   const section = req.params.section;
   const semester = req.params.semester;
   db.query(
-    "SELECT * FROM semesters_courses WHERE course_initial LIKE CONCAT(?,'%') AND section = ? AND semester LIKE CONCAT(?,'%')",
+    "SELECT * FROM semesters_courses WHERE course_initial LIKE ? AND section = ? AND semester_id = ?",
     [course, section, semester],
     (err, result) => {
       if (err) {
@@ -25,12 +25,12 @@ router.get("/semestersCourses/:course/:section/:semester", (req, res) => {
 });
 
 //get users courses by semester
-router.get("/userCourses/:username/:semester", (req, res) => {
+router.get("/:username/:password", (req, res) => {
   const username = req.params.username;
-  const semester = req.params.semester;
+  const password = req.params.password;
   db.query(
-    "SELECT * FROM courseinfo WHERE username = ? AND semester LIKE ?",
-    [username, semester],
+    "SELECT stu.username,semc.* FROM semesters_courses semc INNER JOIN students_courses stu ON stu.username = ? AND stu.semesters_courses_id = semc.semesters_courses_id INNER JOIN students st ON st.username = ? AND st.password = ? ORDER BY semc.semester_id DESC",
+    [username, username, password],
     (err, result) => {
       if (err) {
         res.send({ err: err });
@@ -64,26 +64,30 @@ router.get("/status/:username/:course/:semester", (req, res) => {
   );
 });
 router.post("/", (req, res) => {
-  const username = req.body.usernameInput;
-  const course_id = req.body.passwordInput;
-  const faculty_id = req.body.fname;
-  const semester_id = req.body.lname;
-  const semesters_courses_id = req.body.lname;
-  db.query(
-    "INSERT INTO students_courses (username,course_id,faculty_id,semester_id,semesters_courses_id) VALUES (?,?,?,?,?)",
-    [username, course_id, faculty_id, semester_id, semesters_courses_id],
-    [username, semester],
-    (err, result) => {
-      if (err) {
-        res.send({ err: err });
+  const username = req.body.username;
+  let resultArr = [];
+  req.body.courses.forEach((course, index) => {
+    const course_id = course.course_id;
+    const semester_id = course.semester_id;
+    const semesters_courses_id = course.semesters_courses_id;
+    db.query(
+      "INSERT INTO students_courses (username,course_id,semester_id,semesters_courses_id) VALUES (?,?,?,?)",
+      [username, course_id, semester_id, semesters_courses_id],
+      (err, result) => {
+        if (err) {
+          res.send({ err: err });
+        }
+        if (result.affectedRows === 1) {
+          resultArr.push(course);
+          if (index === req.body.courses.length - 1) {
+            res.send(resultArr);
+          }
+        } else {
+          res.send({ message: "Cannot Fetch Data" });
+        }
       }
-      if (result) {
-        res.send(result);
-      } else {
-        res.send({ message: "Cannot Fetch Data" });
-      }
-    }
-  );
+    );
+  });
 });
 router.post("/slip", async (req, res) => {
   const file = req.files.file;

@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 //router
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 //animation
@@ -9,22 +9,24 @@ import GlobalStyle from "./components/GlobalStyle";
 //animation
 import { AnimatePresence } from "framer-motion";
 //components
+import Addinfo from "./components/Addinfo";
 import Alerts from "./components/alerts/Alerts";
 import Authentication from "./components/Authentication";
+import Dashboard from "./components/Dashboard";
+import Navbar from "./components/Navbar";
 import Preloader from "./components/preloaders/Preloader";
 //redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const authenticated = useSelector(
     (state) => state.entities.user.authenticated
   );
   const userLoading = useSelector((state) => state.entities.user.loading);
-  // const coursesLoading = useSelector(
-  //   (state) => state.entities.courses.loading
-  // );
+  const coursesLoading = useSelector((state) => state.entities.courses.loading);
   const [startpage, setStartpage] = useState();
 
   useEffect(() => {
@@ -37,14 +39,16 @@ function App() {
 
   return (
     <div className="App">
-      {userLoading ? <Preloader /> : ""}
+      {userLoading || coursesLoading ? <Preloader /> : ""}
       <Alerts />
       {startpage ? <Startpage /> : ""}
+      {authenticated && location.pathname !== "/" ? <Navbar /> : ""}
       <GlobalStyle />
       <AnimatePresence>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Authentication />} />
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/addinfo" element={<Addinfo />} />
         </Routes>
       </AnimatePresence>
     </div>

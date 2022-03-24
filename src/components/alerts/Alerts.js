@@ -50,6 +50,6 @@ const AlertsStyle = styled.div`
   margin-top: 1rem;
   margin-left: 50%;
   transform: translateX(-50%);
-  z-index: 1;
+  z-index: 30;
 `;
 export default Alerts;
