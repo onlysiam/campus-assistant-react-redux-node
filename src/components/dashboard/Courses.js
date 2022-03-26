@@ -71,6 +71,16 @@ const CoursesStyle = styled.div`
     gap: 1.5rem;
     .heading {
       width: 100%;
+      gap: 5px;
+      h1 {
+        padding: 8px 8px;
+        font-size: 1.2rem;
+        width: 7rem;
+      }
+      #time {
+        width: 16rem;
+        padding: 8px 5px;
+      }
     }
     .courses {
       gap: 20px;
@@ -118,14 +128,15 @@ const CoursesStyle = styled.div`
     }
   }
   @media only screen and (max-width: 770px) {
+    width: 80vw;
     .heading {
       h1 {
         padding: 8px 6px;
-        font-size: 0.7rem;
-        width: 3.5rem;
+        font-size: 0.9rem;
+        width: 6rem;
       }
       #time {
-        width: 10rem;
+        width: 11rem;
         padding: 8px 5px;
       }
     }
@@ -135,6 +146,7 @@ const CoursesStyle = styled.div`
     }
   }
   @media only screen and (max-width: 680px) {
+    margin-top: 1.5rem;
     padding: 10px 6px;
     .heading {
       h1 {

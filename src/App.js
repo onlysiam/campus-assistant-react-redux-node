@@ -15,6 +15,7 @@ import Authentication from "./components/Authentication";
 import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import Preloader from "./components/preloaders/Preloader";
+import Profile from "./components/Profile";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 
@@ -35,6 +36,11 @@ function App() {
       setStartpage(false);
       if (authenticated) navigate("/dashboard");
     }, 1100);
+
+    const token = localStorage.getItem("nsuAideJWT");
+    if (!authenticated && token) {
+      console.log(token);
+    }
   }, []);
 
   return (
@@ -49,6 +55,7 @@ function App() {
           <Route path="/" element={<Authentication />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/addinfo" element={<Addinfo />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </AnimatePresence>
     </div>

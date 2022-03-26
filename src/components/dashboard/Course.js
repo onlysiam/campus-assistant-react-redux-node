@@ -1,5 +1,5 @@
 //vars
-import { tertiary, action } from "../../variables/colors";
+import { tertiary } from "../../variables/colors";
 //styled components
 import styled from "styled-components";
 const Course = ({ course }) => {
@@ -33,7 +33,18 @@ const CourseStyle = styled.div`
   #time {
     width: 13rem;
   }
-
+  @media only screen and (min-width: 1600px) {
+    gap: 5px;
+    h1 {
+      padding: 8px 8px;
+      font-size: 1.2rem;
+      width: 7rem;
+    }
+    #time {
+      width: 16rem;
+      padding: 8px 5px;
+    }
+  }
   @media only screen and (max-width: 1290px) {
     gap: 5px;
     h1 {
@@ -61,11 +72,11 @@ const CourseStyle = styled.div`
   @media only screen and (max-width: 770px) {
     h1 {
       padding: 8px 4px;
-      font-size: 0.7rem;
-      width: 3.5rem;
+      font-size: 0.9rem;
+      width: 6rem;
     }
     #time {
-      width: 10rem;
+      width: 11rem;
       padding: 8px 5px;
     }
   }

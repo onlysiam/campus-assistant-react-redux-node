@@ -5,6 +5,7 @@ import courseWindowReducer from "./courseWindow";
 import studentInfoWindowReducer from "./studentinfoWindow";
 import uploadWindowReducer from "./uploadWindow";
 import suggestionWindowReducer from "./suggestionWindoows";
+import infoWindowReducer from "./infowindow";
 
 export default combineReducers({
   loginWindow: loginWindowReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   studentInfoWindow: studentInfoWindowReducer,
   uploadWindow: uploadWindowReducer,
   suggestionWindow: suggestionWindowReducer,
+  infoWindow: infoWindowReducer,
 });

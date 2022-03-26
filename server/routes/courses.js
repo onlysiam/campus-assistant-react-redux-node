@@ -1,3 +1,4 @@
+const auth = require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
 const ocr = require("../ocr/ocr");
@@ -25,12 +26,11 @@ router.get("/semestersCourses/:course/:section/:semester", (req, res) => {
 });
 
 //get users courses by semester
-router.get("/:username/:password", (req, res) => {
-  const username = req.params.username;
-  const password = req.params.password;
+router.get("/", auth, (req, res) => {
+  const username = req.user.username;
   db.query(
-    "SELECT stu.username,semc.* FROM semesters_courses semc INNER JOIN students_courses stu ON stu.username = ? AND stu.semesters_courses_id = semc.semesters_courses_id INNER JOIN students st ON st.username = ? AND st.password = ? ORDER BY semc.semester_id DESC",
-    [username, username, password],
+    "SELECT stu.username,semc.* FROM semesters_courses semc INNER JOIN students_courses stu ON stu.username = ? AND stu.semesters_courses_id = semc.semesters_courses_id INNER JOIN students st ON st.username = ? ORDER BY semc.semester_id DESC",
+    [username, username],
     (err, result) => {
       if (err) {
         res.send({ err: err });

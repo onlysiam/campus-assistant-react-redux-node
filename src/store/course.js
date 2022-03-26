@@ -8,6 +8,7 @@ const slice = createSlice({
   initialState: {
     data: [],
     newCourses: [],
+    notes: [],
     addCourseTemplate: [1, 1, 1, 1],
     courseSaved: false,
     newCourseFetched: false,
@@ -44,6 +45,15 @@ const slice = createSlice({
     courseRequestFailed: (course, action) => {
       course.loading = false;
     },
+    notesRequested: (note, action) => {
+      note.loading = false;
+    },
+    notesAdded: (note, action) => {
+      note.notes = action.payload;
+    },
+    notesRequestFailed: (note, action) => {
+      note.loading = false;
+    },
   },
 });
 
@@ -53,16 +63,34 @@ export const {
   newCourseAdded,
   addCourseTemplateIncrease,
   courseRequestFailed,
+  notesRequested,
+  notesAdded,
+  notesRequestFailed,
 } = slice.actions;
 export default slice.reducer;
 
-export const getCourses = (username, password) =>
+export const getCourses = (clientToken) =>
   apiCallBegan({
-    url: courseUrl.courses + "/" + username + "/" + password,
+    url: courseUrl.courses,
     method: "get",
+    headers: {
+      "x-auth-token": clientToken,
+    },
     onStart: courseRequested.type,
     onSuccess: courseAdded.type,
     onError: courseRequestFailed.type,
+  });
+
+export const getNotes = (clientToken) =>
+  apiCallBegan({
+    url: courseUrl.notes,
+    method: "get",
+    headers: {
+      "x-auth-token": clientToken,
+    },
+    onStart: notesRequested.type,
+    onSuccess: notesAdded.type,
+    onError: notesRequestFailed.type,
   });
 
 export const saveCourses = (data) =>
@@ -90,22 +118,3 @@ export const getSelectedCourse = (course, section, semester) =>
     onSuccess: newCourseAdded.type,
     onError: courseRequestFailed.type,
   });
-// export const register = (informations) =>
-//   apiCallBegan({
-//     url: courseUrl,
-//     method: "post",
-//     data: informations,
-//     onStart: authRequested.type,
-//     onSuccess: courseAdded.type,
-//     onError: authRequestFailed.type,
-//   });
-
-// export const uploadPicture = (file) =>
-//   apiCallBegan({
-//     url: courseUrl,
-//     method: "post",
-//     data: file,
-//     onStart: uploadRequested.type,
-//     onSuccess: courseDpAdded.type,
-//     onError: uploadRequestFailed.type,
-//   });

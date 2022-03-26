@@ -1,5 +1,5 @@
 //vars
-import { primary, accent, action } from "../../variables/colors";
+import { action } from "../../variables/colors";
 //styled components
 import styled from "styled-components";
 const Card = ({ bg, title, course, note, time }) => {
@@ -56,6 +56,21 @@ const CardStyle = styled.div`
       color: ${action};
     }
   }
+  @media only screen and (min-width: 1600px) {
+    width: 24rem;
+    height: 13rem;
+    padding: 16px;
+    h1 {
+      font-size: 2rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+    }
+    h3,
+    p {
+      font-size: 1.6rem;
+    }
+  }
   @media only screen and (max-width: 1290px) {
     width: 17rem;
     height: 9rem;
@@ -84,8 +99,11 @@ const CardStyle = styled.div`
       font-size: 0.7rem;
     }
   }
+  @media only screen and (max-width: 770px) {
+    min-width: 16rem;
+  }
   @media only screen and (max-width: 680px) {
-    width: 90%;
+    width: 97%;
     min-height: 9rem;
     padding: 10px 20px;
     justify-content: space-evenly;
@@ -97,6 +115,11 @@ const CardStyle = styled.div`
     }
     h3 {
       font-size: 0.9rem;
+    }
+    button {
+      position: absolute;
+      height: 3rem;
+      width: 5rem;
     }
   }
 `;

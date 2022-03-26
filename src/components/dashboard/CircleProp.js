@@ -1,10 +1,8 @@
 import React from "react";
-//components
 //animation
 import { motion } from "framer-motion";
 import { cgpaCircleAnimation } from "../Animation";
 //redux
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 const CircleProp = ({ strokeValue, value, label, startLimit, endLimit }) => {
   return (

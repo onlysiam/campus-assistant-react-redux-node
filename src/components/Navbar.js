@@ -4,23 +4,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 //vars
 import { secondary } from "../variables/colors";
-//animation
-import { AnimatePresence } from "framer-motion";
 //components
 import Element from "./nav/Element";
-import Menu from "./nav/Menu";
 import Hamburgermenu from "./nav/Hamburgermenu";
-//redux
-import { useSelector, useDispatch } from "react-redux";
 const Navbar = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const authenticated = useSelector(
-    (state) => state.entities.user.authenticated
-  );
-  const userInfo = useSelector((state) => state.entities.user);
   const [navbarScroll, setNavbarScroll] = useState(false);
-  const [menu, setMenu] = useState(false);
   const [navMenuSlide, setNavMenuSlide] = useState(false);
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -42,37 +31,9 @@ const Navbar = () => {
         <Element body="Home" target="/dashboard" />
         <Element body="Department" target="/department" />
         <Element body="RDS" target="/rds" />
-        <Element body="Profile" target="/settings" />
+        <Element body="Profile" target="/profile" />
         <Element logout={true} body="Logout" target="/" />
       </div>
-      {/* {authenticated ? (
-          <div className="relative h-10 w-10 right-8 sm:top-0 sm:right-0 rounded-full cursor-pointer">
-            <img
-              onClick={() => setMenu(!menu)}
-              className="absolute h-full w-full top-0 left-0 object-cover"
-              src=""
-              alt=""
-            />
-          </div>
-        ) : (
-          <div className="mr-8 sm:mr-0">
-            <Element
-              body="Login"
-              target="login"
-              url="true"
-              setNavMenuSlide={setNavMenuSlide}
-            />
-          </div>
-        )}
-        <AnimatePresence>
-          {menu ? (
-            <div className="absolute w-40 top-16 sm:top-14 right-8 sm:right-28 mt-1 duration-150">
-              <Menu key={1} navbarScroll={navbarScroll} setMenu={setMenu} />
-            </div>
-          ) : (
-            ""
-          )}
-        </AnimatePresence> */}
     </NavStyle>
   );
 };
@@ -84,7 +45,7 @@ const NavStyle = styled.div`
   padding: 0px 5rem;
   width: 100vw;
   height: 3.5rem;
-  z-index: 10;
+  z-index: 20;
   .hamburger {
     display: none;
   }

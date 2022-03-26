@@ -24,9 +24,9 @@ const Alerts = () => {
     }
   }, [alert]);
   return (
-    <AlertsStyle className="">
+    <AlertsStyle>
       <Box sx={{ display: "flex" }}>
-        <Grow in={checked}>
+        <Grow in={checked} unmountOnExit>
           <Alert
             onClose={() => {
               dispatch(alertToggleFalse());

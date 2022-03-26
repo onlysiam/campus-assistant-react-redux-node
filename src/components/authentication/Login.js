@@ -50,9 +50,9 @@ const Login = () => {
       dispatch(userValidationError(validation));
     } else if (validation) {
       dispatch(userValidationErrorReset());
-      dispatch(login(username, password));
+      const clientToken = localStorage.getItem("nsuaideJWT");
+      dispatch(login(username, password, clientToken));
       localStorage.setItem("nsuaideUserUsername", username);
-      localStorage.setItem("nsuaideUserPassword", password);
     }
   };
 

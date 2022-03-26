@@ -44,7 +44,7 @@ export const validateUserSignup = (data) => {
       catagory: catagories.username,
       message: "username can't be empty.",
     };
-  else if (data.username.length < 10)
+  else if (data.username.length < 10 || data.username.length > 10)
     return {
       catagory: catagories.username,
       message: "username must me 10 digits long.",

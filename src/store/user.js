@@ -24,23 +24,29 @@ const slice = createSlice({
       authentication.loading = true;
     },
     userAdded: (user, action) => {
-      if (action.payload.length > 0) {
-        user.userinfo = action.payload[0];
-        user.name = action.payload[0].name;
-        user.username = action.payload[0].username;
-        user.email = action.payload[0].email;
-        user.profilepic = action.payload[0].profilepic;
-        user.degree = parseInt(action.payload[0].username.toString().slice(-3));
+      if (action.payload.result.length > 0) {
+        user.userinfo = action.payload.result[0];
+        user.name = action.payload.result[0].name;
+        user.username = action.payload.result[0].username;
+        user.email = action.payload.result[0].email;
+        user.profilepic = action.payload.result[0].profilepic;
+        user.degree = parseInt(
+          action.payload.result[0].username.toString().slice(-3)
+        );
         user.authenticated = true;
         //user object into storage
-        localStorage.setItem("nsuAideUserInfo", JSON.stringify(action.payload));
+        localStorage.setItem(
+          "nsuAideUserInfo",
+          JSON.stringify(action.payload.result)
+        );
+        localStorage.setItem("nsuaideJWT", action.payload.token);
         // var retrievedObject = JSON.parse(
         //   localStorage.getItem("weatherClosetUserInfo")
         // );
         user.loading = false;
-      } else {
+      } else if (action.payload.err === "ER_DUP_ENTRY") {
         user.error.type = "error";
-        user.error.message = "incorrect username or password";
+        user.error.message = "user already exists";
       }
     },
 
@@ -54,6 +60,7 @@ const slice = createSlice({
       user.authenticated = false;
       localStorage.removeItem("nsuaideUsername");
       localStorage.removeItem("nsuaidePassword");
+      localStorage.removeItem("nsuaideJWT");
     },
     userRemoved: (user, action) => {
       user.list.filter((user) => user.id !== action.payload.id);
@@ -107,9 +114,9 @@ export const {
 } = slice.actions;
 export default slice.reducer;
 
-export const login = (username, password) =>
+export const login = (username, password, clientToken) =>
   apiCallBegan({
-    url: user.users + "/" + username + "/" + password,
+    url: user.auth + "/" + username + "/" + password,
     method: "get",
     onStart: authRequested.type,
     onSuccess: userAdded.type,

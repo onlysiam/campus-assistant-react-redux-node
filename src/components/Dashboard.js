@@ -12,6 +12,7 @@ import AcademicInfo from "./dashboard/AcademicInfo";
 import CourseInfo from "./dashboard/CourseInfo";
 import Courses from "./dashboard/Courses";
 import Profilepicture from "./profile/Profilepicture";
+import Notes from "./Notes";
 //redux
 import { useSelector } from "react-redux";
 const Dashboard = () => {
@@ -33,6 +34,9 @@ const Dashboard = () => {
       <div className="profilePicSection">
         <Profilepicture />
         <AcademicInfo />
+        <div className="notes">
+          <Notes />
+        </div>
       </div>
       <div className="infoSection">
         <Courses />
@@ -70,6 +74,13 @@ const DashboardStyle = styled(motion.div)`
   }
 
   @media only screen and (min-width: 1600px) {
+    .profilePicSection {
+      gap: 3rem;
+      padding: 2rem 8rem 0rem 8rem;
+    }
+    .infoSection {
+      padding: 0 8rem;
+    }
   }
   @media only screen and (max-width: 1290px) {
     .profilePicSection {
@@ -88,11 +99,20 @@ const DashboardStyle = styled(motion.div)`
     }
   }
   @media only screen and (max-width: 770px) {
+    justify-content: start;
     .profilePicSection {
-      padding: 2rem 1rem 0rem 1rem;
+      padding: 2rem 2rem 0rem 2rem;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      height: 33vh;
     }
     .infoSection {
-      padding: 2rem 1rem 0rem 1rem;
+      height: 55vh;
+      width: 100vw;
+      flex-direction: column-reverse;
+      gap: 2rem;
+      padding: 2rem 2rem 0rem 2rem;
     }
   }
   @media only screen and (max-width: 680px) {
@@ -108,7 +128,7 @@ const DashboardStyle = styled(motion.div)`
     .infoSection {
       height: auto;
       flex-direction: column-reverse;
-      gap: 2rem;
+      gap: 0.5rem;
       padding: 1rem 1rem 1rem 1rem;
     }
   }

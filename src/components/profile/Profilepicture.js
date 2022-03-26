@@ -87,8 +87,8 @@ const DpStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 12rem;
-  width: 12rem;
+    height: 15rem;
+    width: 15rem;
   border-radius: 8px;
   overflow: hidden;
   img {
@@ -115,7 +115,6 @@ const DpStyle = styled.div`
       transition: 0.3s;
       cursor: pointer;
     }
-  }
   @media only screen and (max-width: 1030px) {
     height: 10rem;
     width: 10rem;

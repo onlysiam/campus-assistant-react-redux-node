@@ -8,16 +8,18 @@ const api =
     if (action.type !== actions.apiCallBegan.type) {
       return next(action);
     }
-    const { url, method, data, onSuccess, onError, onStart } = action.payload;
+    const { url, method, headers, data, onSuccess, onError, onStart } =
+      action.payload;
 
     if (onStart) dispatch({ type: onStart });
     next(action);
     try {
       const response = await axios.request({
         baseURL: "http://localhost:3001/api",
-        // baseURL: "https://weathercloset.onlysiam.com/api/",
+        // baseURL: "https://nsuaide.onlysiam.com/api/",
         url,
         method,
+        headers,
         data,
       });
       if (response.data) {
@@ -25,22 +27,48 @@ const api =
       }
       if (onSuccess && response.data) {
         if (onSuccess === "user/userAdded") {
-          if (response.data.length > 0)
+          if (response.data.result.length > 0) {
             dispatch({ type: onSuccess, payload: response.data });
-          else {
+          } else if (response.data.err === "ER_DUP_ENTRY") {
             dispatch(
               alertToggleTrue({
                 type: "error",
-                message: "incorrect username or password",
+                message: "user already exists",
+              })
+            );
+            dispatch({ type: onError, payload: response });
+          } else {
+            dispatch(
+              alertToggleTrue({
+                type: "error",
+                message: "Incorrect Username/ password",
               })
             );
             dispatch({ type: onError, payload: "no data found" });
           }
+        } else {
+          dispatch({ type: onSuccess, payload: response.data });
         }
-        dispatch({ type: onSuccess, payload: response.data });
       }
     } catch (error) {
-      dispatch(actions.apiCallFailed({ error }));
+      if (error.response.status === 401) {
+        dispatch(
+          alertToggleTrue({
+            type: "error",
+            message:
+              "Course fetch failed, no JWT token provided. Please re-login.",
+          })
+        );
+      }
+      if (error.response.status === 400) {
+        dispatch(
+          alertToggleTrue({
+            type: "error",
+            message: "Course fetch failed, invalid JWT Token. Please re-login.",
+          })
+        );
+      }
+      dispatch(actions.apiCallFailed(error));
       if (onError) dispatch({ type: onError, payload: error });
     }
   };

@@ -39,8 +39,8 @@ const Authentication = () => {
         );
       }
       if (loginState) {
-        const password = localStorage.getItem("nsuaideUserPassword");
-        dispatch(getCourses(username, password));
+        const clientToken = localStorage.getItem("nsuaideJWT");
+        dispatch(getCourses(clientToken));
         dispatch(
           alertToggleTrue({
             type: "success",

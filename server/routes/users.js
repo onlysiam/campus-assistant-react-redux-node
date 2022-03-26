@@ -1,5 +1,9 @@
 const express = require("express");
+const auth = require("../middleware/auth");
+const async = require("../middleware/async");
 const router = express.Router();
+const bcrypt = require("bcrypt");
+const { generateAuthToken } = require("../models/user");
 const { db } = require("../startup/db");
 const { cloudinaryUpload } = require("../startup/files");
 
@@ -36,11 +40,12 @@ router.get("/:username/:password", (req, res) => {
   );
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const qrid = "";
+  const salt = await bcrypt.genSalt(12);
   const name = req.body.fname + " " + req.body.lname;
   const username = req.body.username;
-  const password = req.body.password;
+  const password = await bcrypt.hash(req.body.password, salt);
   const profilepic = "";
   const email = req.body.email;
   const otp = Math.floor(1000 + Math.random() * 9000);
@@ -49,10 +54,12 @@ router.post("/", (req, res) => {
     [qrid, name, username, password, profilepic, email, otp],
     (err, result) => {
       if (err) {
-        res.send({ err: err });
+        res.send({ err: err.code });
       }
-      if (result.affectedRows === 1) {
-        res.send([{ name, username, profilepic, email }]);
+      if (result && result.affectedRows === 1) {
+        const result = { name, username, profilepic, email };
+        const token = generateAuthToken(username);
+        res.send(result, token);
       }
     }
   );

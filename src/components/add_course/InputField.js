@@ -115,6 +115,10 @@ const InputStyles = styled.div`
   }
   @media only screen and (max-width: 680px) {
     width: 100%;
+
+    .suggestion {
+      margin-top: 6rem;
+    }
   }
 `;
 export default InputField;

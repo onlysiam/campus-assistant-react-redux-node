@@ -175,7 +175,6 @@ const Body = styled(motion.div)`
       align-items: center;
       width: 80%;
       gap: 1rem;
-      margin-top: 2rem;
 
       .nameInputs {
         width: 100%;
@@ -187,8 +186,8 @@ const Body = styled(motion.div)`
     }
 
     .loginBtn {
-      height: 2.8rem;
       width: 80%;
+      padding: 10px;
       background-color: #50c2c9;
       color: white;
       font-size: 1.2rem;
@@ -227,32 +226,6 @@ const Body = styled(motion.div)`
     }
   }
 
-  @media (min-width: 800px) {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-
-    .formStyle {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      .logoImg {
-      }
-
-      .loginBtn:hover {
-        transform: scale(1.03);
-      }
-      .atags {
-        font-weight: 400;
-        font-size: 2vh;
-        cursor: pointer;
-        color: #50c2c9;
-      }
-    }
-  }
   @media only screen and (max-width: 680px) {
     width: 90vw;
     height: 70vh;

@@ -1,7 +1,6 @@
-//vars
-import { primary, secondary, action } from "../../variables/colors";
 //styled components
 import styled from "styled-components";
+import { primary } from "../../variables/colors";
 import Card from "./Card";
 //components
 const CourseInfo = () => {
@@ -10,7 +9,7 @@ const CourseInfo = () => {
       <Card
         bg="#31ADD4"
         title="CURRENT CLASS"
-        course="CSE499B"
+        course="MAT116"
         time="11:20 AM"
       />
       <Card
@@ -37,6 +36,9 @@ const InfoStyle = styled.div`
   flex-wrap: wrap;
   width: 40rem;
   height: 90%;
+  @media only screen and (min-width: 1600px) {
+    width: 50rem;
+  }
   @media only screen and (max-width: 1290px) {
     width: 35rem;
   }
@@ -48,7 +50,17 @@ const InfoStyle = styled.div`
     overflow-y: scroll;
     gap: 1rem;
   }
+  @media only screen and (max-width: 770px) {
+    justify-content: center;
+    width: 80vw;
+    overflow-y: scroll;
+    gap: 2rem;
+  }
   @media only screen and (max-width: 680px) {
+    background-color: white;
+    width: 98vw;
+    padding: 10px 0px;
+    border-radius: 8px;
     justify-content: flex-start;
     gap: 5px;
     height: 10rem;
